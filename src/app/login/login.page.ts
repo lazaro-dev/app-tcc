@@ -24,6 +24,8 @@ export class LoginPage implements OnInit {
   }
 
   submitForm(){
-    this.loginService.auth(this.loginForm.value);
+    // let aux = this.loginForm.value as User;
+    // console.log(aux.email)
+    this.loginService.auth(this.loginForm.value as User);
   }
 }

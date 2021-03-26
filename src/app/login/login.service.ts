@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotifyService } from '../notify/notify.service';
 import { User } from './user.model';
 
 @Injectable({
@@ -16,16 +17,16 @@ export class LoginService {
     accessToken: false,
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private notifySevice: NotifyService) { }
 
   auth(user: User): void {
-    if(this.userValid.email===this.user.email&&this.userValid.password===this.user.password){
-      this.user.name = this.userValid.name;
-      this.user.email = this.userValid.email;
+    console.log(user);
+    if((this.userValid.email===user.email)&&(this.userValid.password===user.password)){
+      this.user= this.userValid;
       this.user.accessToken = true;
-      this.router.navigate(['/folder']);
+      this.router.navigate(['/home']);
     }else{
-
+      this.notifySevice.presentNotify();
     }
   }
 }
