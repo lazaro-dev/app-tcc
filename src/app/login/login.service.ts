@@ -29,4 +29,8 @@ export class LoginService {
       this.notifySevice.presentNotify();
     }
   }
+
+  validAuth(): boolean {
+    return this.user !== undefined;
+  }
 }
