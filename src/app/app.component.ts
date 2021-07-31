@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { LoginService } from './login/login.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { LoginService } from './services/login.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -15,9 +17,19 @@ export class AppComponent {
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor(private loginService: LoginService) {}
+  public menuToggle: boolean = false
+  private subscription: Subscription
 
-  validAuth(): boolean {
-    return this.loginService.validAuth();
+  constructor(private loginService: LoginService, private router: Router) {
+
+    this.subscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && event.url !== '/login') {        
+        this.menuToggle = true;
+      }
+    });
+  }
+
+  validAuth(): void {
+    this.menuToggle = this.loginService.validAuth();
   }
 }
